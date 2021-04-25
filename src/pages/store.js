@@ -1,125 +1,126 @@
 import React from "react"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
+import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import StarRatingComponent from 'react-star-rating-component';
-import { graphql } from "gatsby";
+import Banner from "../components/banner"
+// import LatestBlogs from "../components/latestBlog"
+import Countdown from "../components/countdown"
+import StarRatingComponent from "react-star-rating-component"
+import { graphql } from "gatsby"
+import _ from "lodash"
+import Hero from "../components/Hero"
+import ProductsGrid from "../components/ProductsGrid"
+import LatestBlogs from "../components/LatestBlogs"
 
-class IndexPost extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      NoOfPost: 6
-    };
-    this.handleScroll = this.handleScroll.bind(this);
+const Tabs = styled.div`
+  .tabs {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8rem;
+    padding: 10rem 0 2rem;
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
+  .tab {
+    margin: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = () => {
-    var lastScrollY = window.pageYOffset + 1100;
-
-    if (lastScrollY > window.outerHeight) {
-      var count = this.state.NoOfPost + 3;
-      this.setState({
-        NoOfPost: count
-      });
+    &.active {
+      text-decoration: underline;
     }
-  };
-
-  render() {
-
-    const { data } = this.props;
-    const { NoOfPost } = this.state;
-
-    return (
-      <React.Fragment>
-        <div className="row product-main" onScroll={this.onScrollEvent}>
-          {data.data.allContentfulProduct.edges.slice(0, NoOfPost).map(items => (
-            <div className="Catalogue__item col-sm-12 col-md-6 col-lg-4" key={items.node.id}>
-              <div className="details_List">
-                {items.node.image === null ? <div className="no-image">No Image</div> : <Img sizes={items.node.image.fixed} />}
-
-                <div className="details_inner">
-                  <h2>
-                    <Link to={`/${items.node.slug}`}>{items.node.name}</Link>
-                  </h2>
-                  <StarRatingComponent
-                    name="rate1"
-                    starCount={5}
-                    value={items.node.rating}
-                  />
-                  <p>{items.node.details.childMarkdownRemark.excerpt}</p>
-                  <div className="row">
-                    <div className="col-sm-4 align-self-center">
-                      <span className="price">${items.node.price}</span>
-                    </div>
-                    <div className="col-sm-8 text-right align-self-center">
-                      <a
-                        href="#"
-                        className="Product snipcart-add-item"
-                        data-item-id={items.node.slug}
-                        data-item-price={items.node.price}
-                        data-item-image={items.node.image === null ? "" : items.node.image.fixed.src}
-                        data-item-name={items.node.name}
-                        data-item-url={`/`}
-                      >
-                        <i className="fas fa-shopping-bag" />Add to Cart
-                    </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  }
+`
+const StorePage = data => {
+  const [activeTab, setActiveTab] = React.useState("")
+  //   const heroData = _.get(data, "data.contentfulPage")
+  const productsGridData = _.get(data, "data.allContentfulProduct.edges")
+  const tabs = _.get(data, "data.allContentfulCategory.edges")
+  const filteredProductsGridData = React.useMemo(() => {
+    if (!activeTab) {
+      return productsGridData
+    }
+    return productsGridData.filter(({ node }) => node.category.id === activeTab)
+  }, [activeTab])
+  //   const blogData = _.get(data, "data.allContentfulBlog.edges")
+  //   console.log({ data })
+  //   tabs.map((e, i) => console.log(e.node.title))
+  return (
+    <Layout headerClassName="total-light">
+      <SEO
+        title="Home"
+        keywords={[`gatsby`, `oneshopper`, `react`, `Ecommerce`]}
+      />
+      <Tabs>
+        <div className="tabs">
+          {tabs.map((e, i) => (
+            <div
+              className={`${e.node.id === activeTab ? "tab active" : "tab"}`}
+              onClick={() => setActiveTab(e.node.id)}
+              key={i}
+            >
+              {e.node.title}
             </div>
           ))}
         </div>
-      </React.Fragment>
-    );
-  }
-}
+      </Tabs>
 
-const IndexPage = data => (
-
-  <Layout>
-    <SEO title="Store" keywords={[`gatsby`, `store`, `react`]} />
-    <div className="container store-page">
+      <ProductsGrid items={filteredProductsGridData} title="" />
+      {/* <Hero {...heroData} />
+      <ProductsGrid items={productsGridData} />
+      <LatestBlogs items={blogData} /> */}
+      {/* <Banner BannerData={data.data.allContentfulHeaderBanner.edges} />
+    <LatestBlogs data={data.data.allContentfulBlogs} />
+    <div className="container">
+      <div className="text-center">
+        <h2 className="with-underline">Latest Items</h2>
+      </div>
       <IndexPost data={data}></IndexPost>
     </div>
-  </Layout>
-)
+    <Countdown data={data.data.contentfulDealCountDown} /> */}
+    </Layout>
+  )
+}
 
-export default IndexPage
+export default StorePage
 
 export const query = graphql`
   query StoreQuery {
-    allContentfulProduct{
-      edges{
-        node{
-          id
-          name
-          slug
-          rating
-          image {
-            fixed(width: 1000, height: 500) {
-              width
-              height
-              src
+    allContentfulProduct {
+      edges {
+        node {
+          images {
+            fluid {
               srcSet
+              src
+              tracedSVG
             }
           }
+          hotItem
+          featured
+          createdAt
+          category {
+            title
+            id
+          }
+          id
+          slug
           price
-          details {
-            childMarkdownRemark {
-              excerpt(pruneLength: 140)
-            }
+          title
+          updatedAt
+          description {
+            description
           }
+        }
+      }
+    }
+    allContentfulCategory {
+      edges {
+        node {
+          title
+          id
         }
       }
     }

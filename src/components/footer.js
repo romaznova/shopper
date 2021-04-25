@@ -1,35 +1,77 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import styled from "styled-components"
 import { Link } from "gatsby"
 
+const FooterComponent = styled.footer`
+  width: 100%;
+  background: rgb(51, 51, 51);
+  li {
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+  }
+  .link {
+    display: block;
+    margin: 1rem;
+    padding: 1rem;
+    color: #fff;
+    font-size: 1.6rem;
+    text-decoration: none;
+  }
+
+  .rights {
+    color: #fff;
+    text-align: center;
+    padding: 2rem 0;
+  }
+`
+
 class Footer extends Component {
-    render() {
-        return (
-            <footer className="site-footer">
-                <div className="footer_inner">
-                    <div className="container">
-                        <div className="footer-widget footer-content">
-                            <section id="nav_menu-8" className="widget widget_nav_menu">
-                                <div className="menu-main-container">
-                                    <ul id="menu-main" className="menu">
-                                        <li><Link to="/about">About</Link></li>
-                                        <li><Link to="/blogs">Blogs</Link></li>
-                                        <li><Link to="/store">Store</Link></li>
-                                        <li><Link to="/contact-us">Contact</Link></li>
-                                        <li><Link to="/copyright">Copyright</Link></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </div>
-                        <div className="footer-bottom social-right-menu ">
-                            <div className="site-info">
-                                ©2019 Oneshopper. All rights reserved.
-                            </div>
-                        </div>
-                    </div>
+  render() {
+    return (
+      <FooterComponent>
+        <div className="footer_inner">
+          <div>
+            <div>
+              <section>
+                <div>
+                  <ul>
+                    <li>
+                      <Link className="link" to="/about">
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="link" to="/blogs">
+                        Blogs
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="link" to="/store">
+                        Store
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="link" to="/contact-us">
+                        Contact
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="link" to="/copyright">
+                        Copyright
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
-            </footer>
-        )
-    }
+              </section>
+            </div>
+            <div className="rights">©2021 SEO Sarter. All rights reserved.</div>
+          </div>
+        </div>
+      </FooterComponent>
+    )
+  }
 }
 
 export default Footer

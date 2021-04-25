@@ -40,12 +40,12 @@ module.exports = {
         accessToken
       }
     },
-    {
-      resolve: "gatsby-plugin-snipcartv3",
-      options: {
-        apiKey: snipcart,
-        autopop: true,
-      },
-    },
+    // {
+    //   resolve: "gatsby-plugin-snipcartv3",
+    //   options: {
+    //     apiKey: snipcart,
+    //     autopop: true,
+    //   },
+    // },
   ],
 }

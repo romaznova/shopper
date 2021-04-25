@@ -8,15 +8,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
     resolve(
       graphql(`
         {
-          allContentfulProduct{
-            edges{
-              node{
-                id
-                slug
-              }
-            }
-          }
-          allContentfulBlogs {
+          allContentfulProduct {
             edges {
               node {
                 id
@@ -29,6 +21,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         if (result.errors) {
           reject(result.errors)
         }
+
         result.data.allContentfulProduct.edges.forEach(edge => {
           createPage({
             path: edge.node.slug,
@@ -37,16 +30,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               slug: edge.node.slug,
             },
           })
-        });
-        result.data.allContentfulBlogs.edges.forEach(data => {
-          createPage({
-            path: data.node.slug,
-            component: BlogTemplate,
-            context: {
-              slug: data.node.slug
-            }
-          });
-        });
+        })
+        // result.data.allContentfulBlogs.edges.forEach(data => {
+        //   createPage({
+        //     path: data.node.slug,
+        //     component: BlogTemplate,
+        //     context: {
+        //       slug: data.node.slug
+        //     }
+        //   });
+        // });
         return
       })
     )
