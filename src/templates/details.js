@@ -18,10 +18,16 @@ const ProductDetailsComponent = styled.div`
   max-width: 192rem;
   margin: 0 auto;
   padding: 5rem 0;
+  width: 100%;
   .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
     padding: 1rem;
+    width: 100%;
+
+    .swiper-container {
+      max-width: 100%;
+    }
   }
 
   .title {
@@ -85,7 +91,7 @@ const ProductDetailsComponent = styled.div`
 
   ${SCREEN.TL_DOWN} {
     .grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 100%;
     }
 
     .price {
