@@ -10,6 +10,7 @@ const FooterComponent = styled.footer`
   ul {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
   }
   .link {
     display: block;
