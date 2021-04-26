@@ -19,6 +19,10 @@ const ProductDetailsComponent = styled.div`
   margin: 0 auto;
   padding: 5rem 0;
   width: 100%;
+
+  & * {
+    box-sizing: border-box;
+  }
   .grid {
     display: grid;
     grid-template-columns: 50% 50%;
