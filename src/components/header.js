@@ -57,7 +57,7 @@ const Header = ({ siteTitle, className }) => {
   const [isLight, setIsLight] = React.useState(false)
   const handleScroll = React.useCallback(e => {
     const scrollTop = _.get(e, "target.documentElement.scrollTop", 0)
-    console.log({ scrollTop })
+    // console.log({ scrollTop })
     if (scrollTop > 50) {
       return setIsLight(true)
     }
