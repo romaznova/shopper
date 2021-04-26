@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { Link } from "gatsby"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { Button } from "../../containers"
 import { SCREEN } from "../../styles"
 
@@ -154,7 +155,18 @@ const ProductsGrid = props => {
           {props.items.map(({ node }, i) => {
             return (
               <div className="card" key={i}>
-                <Link className="link" to={`/${node.slug}`} />
+                <Link
+                  onClick={() =>
+                    trackCustomEvent({
+                      category: node.category.title,
+                      action: "clickCard",
+                      label: node.title,
+                      value: node.slug,
+                    })
+                  }
+                  className="link"
+                  to={`/${node.slug}`}
+                />
                 <div className="inner">
                   {node.featured && (
                     <div className="mark featured">featured</div>
