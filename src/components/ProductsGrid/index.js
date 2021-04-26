@@ -147,26 +147,37 @@ const ProductsGridComponent = styled.div`
 
 const ProductsGrid = props => {
   //   console.log({ props })
+
   return (
     <ProductsGridComponent>
       <div className="l-layout">
-        {props.title && <h3 className="main-title">{props.title}</h3>}
+        {props.title && (
+          <h3
+            className="main-title"
+            onClick={e => {
+              e.preventDefault()
+              console.log({
+                category: props.title,
+                action: "clickTitle",
+                label: "products-grid-title-click",
+                value: 1,
+              })
+              trackCustomEvent({
+                category: props.title,
+                action: "clickTitle",
+                label: "products-grid-title-click",
+                value: 1,
+              })
+            }}
+          >
+            {props.title}
+          </h3>
+        )}
         <div className="grid">
           {props.items.map(({ node }, i) => {
             return (
               <div className="card" key={i}>
-                <Link
-                  onClick={() =>
-                    trackCustomEvent({
-                      category: node.category.title,
-                      action: "clickCard",
-                      label: node.title,
-                      value: node.slug,
-                    })
-                  }
-                  className="link"
-                  to={`/${node.slug}`}
-                />
+                <Link className="link" to={`/${node.slug}`} />
                 <div className="inner">
                   {node.featured && (
                     <div className="mark featured">featured</div>
