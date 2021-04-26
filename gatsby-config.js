@@ -10,15 +10,16 @@ module.exports = {
     author: `@rohitguptab`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         // The property ID; the tracking code won't be generated without it
         trackingId: "UA-176422268-1",
+        head: false,
       },
     },
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
