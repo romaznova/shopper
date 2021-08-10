@@ -68,6 +68,7 @@ const LatestBlogs = props => {
         </div>
       </div>
     </LatesBlogsComponent>
+    
   )
 }
 
